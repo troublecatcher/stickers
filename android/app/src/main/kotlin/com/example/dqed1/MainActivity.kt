@@ -1,4 +1,4 @@
-package com.example.stickers
+package com.example.dqed1
 
 import io.flutter.embedding.android.FlutterActivity
 
