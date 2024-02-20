@@ -4,15 +4,12 @@ import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
 
 import 'pp.dart';
 import 'tou.dart';
-
-late PageController _pageController;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,14 +19,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late int _selectedIndex;
   bool ableToCallShareWindow = true;
 
   @override
   initState() {
     super.initState();
-    _selectedIndex = 0;
-    _pageController = PageController(initialPage: _selectedIndex);
   }
 
   @override
@@ -53,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.settings_rounded, color: Colors.white),
       ),
       appBar: AppBar(
-        title: Text(
-          _selectedIndex == 0 ? 'Stickers' : 'Settings',
-          style: const TextStyle(fontWeight: FontWeight.w700),
+        title: const Text(
+          'Tiger Stickers',
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
       body: Stack(
@@ -71,90 +65,70 @@ class _HomeScreenState extends State<HomeScreen> {
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: PageView(
-              onPageChanged: (value) {
-                setState(() {
-                  _selectedIndex = value;
-                });
-              },
-              controller: _pageController,
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: [
-                          ...List.generate(16, (index) {
-                            return Builder(builder: (ctx) {
-                              return GestureDetector(
-                                  onTap: () async {
-                                    if (ableToCallShareWindow) {
-                                      ableToCallShareWindow = false;
-                                      final box =
-                                          ctx.findRenderObject() as RenderBox?;
-                                      String copiedFilePath =
-                                          await copyAssetToDevice(
-                                              'assets/${index + 1}.png');
-                                      await Share.shareXFiles(
-                                        [XFile(copiedFilePath)],
-                                        sharePositionOrigin:
-                                            box!.localToGlobal(Offset.zero) &
-                                                box.size,
-                                      ).whenComplete(() {
-                                        deleteFile(copiedFilePath);
-                                        ableToCallShareWindow = true;
-                                      });
-                                    }
-                                  },
-                                  child: Image.asset(
-                                    'assets/${index + 1}.png',
-                                    height:
-                                        MediaQuery.of(context).size.width / 4 -
-                                            20,
-                                    width:
-                                        MediaQuery.of(context).size.width / 4 -
-                                            20,
-                                  ));
-                            });
-                          }),
-                          Container(
-                            margin: const EdgeInsets.all(20),
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: ListTile(
-                              leading: const Icon(Icons.info_outline_rounded),
-                              title: Text(
-                                'Save to Photos or Notes and drag onto the chat to drop as sticker',
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      ...List.generate(16, (index) {
+                        return Builder(builder: (ctx) {
+                          return GestureDetector(
+                              onTap: () async {
+                                if (ableToCallShareWindow) {
+                                  ableToCallShareWindow = false;
+                                  final box =
+                                      ctx.findRenderObject() as RenderBox?;
+                                  String copiedFilePath =
+                                      await copyAssetToDevice(
+                                          'assets/${index + 1}.png');
+                                  await Share.shareXFiles(
+                                    [XFile(copiedFilePath)],
+                                    sharePositionOrigin:
+                                        box!.localToGlobal(Offset.zero) &
+                                            box.size,
+                                  ).whenComplete(() {
+                                    deleteFile(copiedFilePath);
+                                    ableToCallShareWindow = true;
+                                  });
+                                }
+                              },
+                              child: Image.asset(
+                                'assets/${index + 1}.png',
+                                height:
+                                    MediaQuery.of(context).size.width / 4 - 20,
+                                width:
+                                    MediaQuery.of(context).size.width / 4 - 20,
+                              ));
+                        });
+                      }),
+                      Container(
+                        margin: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: Colors.orangeAccent,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: ListTile(
+                          leading: const Icon(Icons.info_outline_rounded),
+                          title: Text(
+                            'Save to Photos or Notes and drag onto the chat to drop as sticker',
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      _pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 200), curve: Curves.ease);
-    });
   }
 
   Future<String> copyAssetToDevice(String assetPath) async {
