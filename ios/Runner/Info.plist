@@ -57,6 +57,7 @@
 		<string>fb-messenger</string>
 		<string>tg</string>
 		<string>twitter</string>
+		<string>whatsapp</string>
 	</array>
 	<key>NSBonjourServices</key>
 	<array>

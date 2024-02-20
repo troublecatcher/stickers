@@ -1,19 +1,45 @@
 PODS:
   - Flutter (1.0.0)
+  - libwebp (1.3.2):
+    - libwebp/demux (= 1.3.2)
+    - libwebp/mux (= 1.3.2)
+    - libwebp/sharpyuv (= 1.3.2)
+    - libwebp/webp (= 1.3.2)
+  - libwebp/demux (1.3.2):
+    - libwebp/webp
+  - libwebp/mux (1.3.2):
+    - libwebp/demux
+  - libwebp/sharpyuv (1.3.2)
+  - libwebp/webp (1.3.2):
+    - libwebp/sharpyuv
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - SDWebImage/Core (5.18.11)
+  - SDWebImageWebPCoder (0.14.5):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.17)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - whatsapp_stickers_plus (1.0.0):
+    - Flutter
+    - SDWebImageWebPCoder
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - whatsapp_stickers_plus (from `.symlinks/plugins/whatsapp_stickers_plus/ios`)
+
+SPEC REPOS:
+  trunk:
+    - libwebp
+    - SDWebImage
+    - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
   Flutter:
@@ -24,12 +50,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  whatsapp_stickers_plus:
+    :path: ".symlinks/plugins/whatsapp_stickers_plus/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  SDWebImage: a3ba0b8faac7228c3c8eadd1a55c9c9fe5e16457
+  SDWebImageWebPCoder: c94f09adbca681822edad9e532ac752db713eabf
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  whatsapp_stickers_plus: 8e16bf2dae5b11db8fd09ad38275364ca3ec3ef8
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
