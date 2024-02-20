@@ -13,7 +13,6 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(231, 231, 231, 1),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
