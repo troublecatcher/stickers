@@ -81,11 +81,12 @@ class HomeScreen extends StatelessWidget {
                                           await copyAssetToDevice(
                                               'assets/${index + 1}.webp');
                                       await Share.shareXFiles(
-                                        [XFile(copiedFilePath)],
-                                        sharePositionOrigin:
-                                            box!.localToGlobal(Offset.zero) &
-                                                box.size,
-                                      ).whenComplete(() {
+                                              [XFile(copiedFilePath)],
+                                              sharePositionOrigin: box!
+                                                      .localToGlobal(
+                                                          Offset.zero) &
+                                                  box.size)
+                                          .whenComplete(() {
                                         deleteFile(copiedFilePath);
                                         ableToCallShareWindow = true;
                                       });
@@ -196,9 +197,7 @@ class HomeScreen extends StatelessWidget {
                           'Check out these stickers! <appstorelink>',
                           sharePositionOrigin:
                               box!.localToGlobal(Offset.zero) & box.size,
-                        ).whenComplete(() {
-                          ableToCallShareWindow = true;
-                        });
+                        ).whenComplete(() => ableToCallShareWindow = true);
                       }
                     },
                     padding: EdgeInsets.zero,
