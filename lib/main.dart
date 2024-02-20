@@ -36,7 +36,21 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(splashColor: Colors.transparent),
+        theme: ThemeData(
+          splashColor: Colors.transparent,
+          appBarTheme: AppBarTheme(
+            titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Colors.black54,
+                  fontFamily: 'Anto',
+                ),
+            color: Colors.orangeAccent,
+          ),
+          textTheme: Theme.of(context).textTheme.apply(
+                fontFamily: 'Anto',
+                bodyColor: Colors.black54,
+                displayColor: Colors.black54,
+              ),
+        ),
         debugShowCheckedModeBanner: false,
         home: isFirstTime! ? const OnboardingScreen() : const HomeScreen());
   }

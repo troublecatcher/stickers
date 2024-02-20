@@ -7,16 +7,14 @@ environment:
   sdk: ">=3.2.6 <4.0.0"
 
 dependencies:
-  appinio_social_share: ^0.3.0
+  bottom_sheet: ^4.0.0
   flutter:
     sdk: flutter
-  flutter_image_compress: ^2.1.0
   flutter_svg: ^2.0.9
   path: ^1.8.3
   path_provider: ^2.1.2
   share_plus: ^7.2.2
   shared_preferences: ^2.2.2
-  social_share_plus: ^0.0.4
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +25,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+  fonts:
+    - family: Anto
+      fonts:
+        - asset: assets/Anta/Anta-Regular.ttf
+          weight: 400

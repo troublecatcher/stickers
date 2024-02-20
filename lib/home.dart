@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:appinio_social_share/appinio_social_share.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +12,8 @@ import 'package:share_plus/share_plus.dart';
 import 'pp.dart';
 import 'tou.dart';
 
+late PageController _pageController;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -20,8 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late PageController _pageController;
   late int _selectedIndex;
+  bool ableToCallShareWindow = true;
 
   @override
   initState() {
@@ -30,63 +32,87 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController = PageController(initialPage: _selectedIndex);
   }
 
-  AppinioSocialShare appinioSocialShare = AppinioSocialShare();
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      _pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 200), curve: Curves.ease);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
+        backgroundColor: Colors.brown,
+        onPressed: () {
+          showFlexibleBottomSheet(
+            bottomSheetBorderRadius: BorderRadius.circular(32),
+            minHeight: 0,
+            initHeight: 0.5,
+            maxHeight: 1,
+            context: context,
+            builder: (_buildBottomSheet),
+            anchors: [0, 0.5, 1],
+            isSafeArea: true,
+          );
+        },
+        child: const Icon(Icons.settings_rounded, color: Colors.white),
+      ),
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(231, 231, 231, 1),
-        centerTitle: false,
         title: Text(
           _selectedIndex == 0 ? 'Stickers' : 'Settings',
           style: const TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              color: const Color.fromRGBO(231, 231, 231, 1),
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(249, 249, 249, 1),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16))),
-                child: PageView(
-                  onPageChanged: (value) {
-                    setState(() {
-                      _selectedIndex = value;
-                    });
-                  },
-                  controller: _pageController,
-                  children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: [
-                            ...List.generate(20, (index) {
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white,
+                  Color.fromRGBO(255, 165, 0, 0.5),
+                ],
+                begin: Alignment.center,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: PageView(
+              onPageChanged: (value) {
+                setState(() {
+                  _selectedIndex = value;
+                });
+              },
+              controller: _pageController,
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          ...List.generate(16, (index) {
+                            return Builder(builder: (ctx) {
                               return GestureDetector(
                                   onTap: () async {
-                                    String copiedFilePath =
-                                        await copyAssetToDevice(
-                                            'assets/${index + 1}.webp');
-                                    share(filePaths: [copiedFilePath]);
+                                    if (ableToCallShareWindow) {
+                                      ableToCallShareWindow = false;
+                                      final box =
+                                          ctx.findRenderObject() as RenderBox?;
+                                      String copiedFilePath =
+                                          await copyAssetToDevice(
+                                              'assets/${index + 1}.png');
+                                      await Share.shareXFiles(
+                                        [XFile(copiedFilePath)],
+                                        sharePositionOrigin:
+                                            box!.localToGlobal(Offset.zero) &
+                                                box.size,
+                                      ).whenComplete(() {
+                                        deleteFile(copiedFilePath);
+                                        ableToCallShareWindow = true;
+                                      });
+                                    }
                                   },
                                   child: Image.asset(
-                                    'assets/${index + 1}.webp',
+                                    'assets/${index + 1}.png',
                                     height:
                                         MediaQuery.of(context).size.width / 4 -
                                             20,
@@ -94,131 +120,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                         MediaQuery.of(context).size.width / 4 -
                                             20,
                                   ));
-                            })
-                          ],
-                        ),
-                      ),
-                    ),
-                    Center(
-                        child: Padding(
-                      padding:
-                          const EdgeInsets.only(right: 16, top: 20, left: 16),
-                      child: Column(
-                        children: [
-                          Builder(builder: (context) {
-                            return CupertinoButton(
-                              onPressed: () {
-                                final box =
-                                    context.findRenderObject() as RenderBox?;
-                                Share.share(
-                                  'Check out these stickers! <appstorelink>',
-                                  sharePositionOrigin:
-                                      box!.localToGlobal(Offset.zero) &
-                                          box.size,
-                                );
-                              },
-                              padding: EdgeInsets.zero,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 8),
-                                decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(231, 231, 231, 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16))),
-                                child: ListTile(
-                                  leading: SvgPicture.asset('assets/share.svg'),
-                                  title: const Text('Share with friends'),
-                                  trailing:
-                                      SvgPicture.asset('assets/forward.svg'),
-                                ),
-                              ),
-                            );
+                            });
                           }),
-                          Builder(builder: (context) {
-                            return CupertinoButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            const PrivacyPolicyScreen()));
-                              },
-                              padding: EdgeInsets.zero,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 8),
-                                decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(231, 231, 231, 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16))),
-                                child: ListTile(
-                                  leading:
-                                      SvgPicture.asset('assets/privacy.svg'),
-                                  title: const Text('Privacy Policy'),
-                                  trailing:
-                                      SvgPicture.asset('assets/forward.svg'),
-                                ),
+                          Container(
+                            margin: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                color: Colors.orangeAccent,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: ListTile(
+                              leading: const Icon(Icons.info_outline_rounded),
+                              title: Text(
+                                'Save to Photos or Notes and drag onto the chat to drop as sticker',
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
-                            );
-                          }),
-                          Builder(builder: (context) {
-                            return CupertinoButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            const TermsOfUseScreen()));
-                              },
-                              padding: EdgeInsets.zero,
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 8),
-                                decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(231, 231, 231, 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16))),
-                                child: ListTile(
-                                  leading: SvgPicture.asset('assets/terms.svg'),
-                                  title: const Text('Terms of use'),
-                                  trailing:
-                                      SvgPicture.asset('assets/forward.svg'),
-                                ),
-                              ),
-                            );
-                          }),
+                            ),
+                          ),
                         ],
                       ),
-                    ))
-                  ],
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/sticker1.svg'),
-            activeIcon: SvgPicture.asset('assets/sticker2.svg'),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/settings1.svg'),
-            activeIcon: SvgPicture.asset('assets/settings2.svg'),
-            label: '',
           ),
         ],
-        selectedItemColor: Colors.amber[800],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }
 
-  Future<void> share({List<String>? filePaths}) async {
-    await appinioSocialShare.shareToSystem('', '', filePaths: filePaths);
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 200), curve: Curves.ease);
+    });
   }
 
   Future<String> copyAssetToDevice(String assetPath) async {
@@ -229,5 +165,123 @@ class _HomeScreenState extends State<HomeScreen> {
     final File file = File('$tempPath/$fileName');
     await file.writeAsBytes(bytes);
     return file.path;
+  }
+
+  Future<void> deleteFile(String filePath) async {
+    try {
+      final file = File(filePath);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      print('Error while deleting file: $e');
+    }
+  }
+
+  Widget _buildBottomSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
+    return Material(
+      child: ListView(
+        controller: scrollController,
+        children: [
+          Center(
+              child: Padding(
+            padding: const EdgeInsets.only(right: 16, top: 20, left: 16),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Text('Settings',
+                    style: Theme.of(context).textTheme.headlineLarge),
+                const SizedBox(height: 30),
+                Builder(builder: (ctx) {
+                  return CupertinoButton(
+                    onPressed: () async {
+                      if (ableToCallShareWindow) {
+                        ableToCallShareWindow = false;
+                        final box = ctx.findRenderObject() as RenderBox?;
+                        await Share.shareWithResult(
+                          'Check out these stickers! <appstorelink>',
+                          sharePositionOrigin:
+                              box!.localToGlobal(Offset.zero) & box.size,
+                        ).whenComplete(() {
+                          ableToCallShareWindow = true;
+                        });
+                      }
+                    },
+                    padding: EdgeInsets.zero,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.all(Radius.circular(16))),
+                      child: ListTile(
+                        leading: Icon(Icons.ios_share_rounded),
+                        title: Text(
+                          'Share with friends',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                      ),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 10),
+                Builder(builder: (context) {
+                  return CupertinoButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const PrivacyPolicyScreen()));
+                    },
+                    padding: EdgeInsets.zero,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.all(Radius.circular(16))),
+                      child: ListTile(
+                        leading: Icon(Icons.privacy_tip_outlined),
+                        title: Text(
+                          'Privacy Policy',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                      ),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 10),
+                Builder(builder: (context) {
+                  return CupertinoButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const TermsOfUseScreen()));
+                    },
+                    padding: EdgeInsets.zero,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.all(Radius.circular(16))),
+                      child: ListTile(
+                        leading: Icon(Icons.list_alt_rounded),
+                        title: Text(
+                          'Terms of Use',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ))
+        ],
+      ),
+    );
   }
 }
