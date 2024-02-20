@@ -22,28 +22,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        backgroundColor: Colors.brown,
-        onPressed: () {
-          showFlexibleBottomSheet(
-            bottomSheetBorderRadius: BorderRadius.circular(32),
-            minHeight: 0,
-            initHeight: 0.5,
-            maxHeight: 1,
-            context: context,
-            builder: _buildBottomSheet,
-            anchors: [0, 0.5, 1],
-            isSafeArea: true,
-          );
-        },
-        child: const Icon(Icons.settings_rounded, color: Colors.white),
-      ),
       appBar: AppBar(
         title: const Text(
           'Tiger Stickers',
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
+        actions: [
+          IconButton(
+              onPressed: () => showFlexibleBottomSheet(
+                    bottomSheetBorderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32)),
+                    minHeight: 0,
+                    initHeight: 0.5,
+                    maxHeight: 0.5,
+                    context: context,
+                    builder: _buildBottomSheet,
+                    anchors: [0, 0.5],
+                    isSafeArea: true,
+                  ),
+              icon: const Icon(Icons.settings_rounded))
+        ],
       ),
       body: Stack(
         children: [
@@ -119,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       Text('or', style: Theme.of(context).textTheme.bodyLarge),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       FittedBox(
                         child: CupertinoButton(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
