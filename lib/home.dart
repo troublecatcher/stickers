@@ -11,20 +11,10 @@ import 'package:share_plus/share_plus.dart';
 import 'pp.dart';
 import 'tou.dart';
 
-class HomeScreen extends StatefulWidget {
+bool ableToCallShareWindow = true;
+
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  bool ableToCallShareWindow = true;
-
-  @override
-  initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             initHeight: 0.5,
             maxHeight: 1,
             context: context,
-            builder: (_buildBottomSheet),
+            builder: _buildBottomSheet,
             anchors: [0, 0.5, 1],
             isSafeArea: true,
           );
@@ -191,12 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.orangeAccent,
                           borderRadius: BorderRadius.all(Radius.circular(16))),
                       child: ListTile(
-                        leading: Icon(Icons.ios_share_rounded),
+                        leading: const Icon(Icons.ios_share_rounded),
                         title: Text(
                           'Share with friends',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
                       ),
                     ),
                   );
@@ -216,12 +206,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.orangeAccent,
                           borderRadius: BorderRadius.all(Radius.circular(16))),
                       child: ListTile(
-                        leading: Icon(Icons.privacy_tip_outlined),
+                        leading: const Icon(Icons.privacy_tip_outlined),
                         title: Text(
                           'Privacy Policy',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
                       ),
                     ),
                   );
@@ -241,12 +231,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.orangeAccent,
                           borderRadius: BorderRadius.all(Radius.circular(16))),
                       child: ListTile(
-                        leading: Icon(Icons.list_alt_rounded),
+                        leading: const Icon(Icons.list_alt_rounded),
                         title: Text(
                           'Terms of Use',
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios_rounded),
+                        trailing: const Icon(Icons.arrow_forward_ios_rounded),
                       ),
                     ),
                   );
