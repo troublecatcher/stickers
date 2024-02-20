@@ -297,7 +297,7 @@ class HomeScreen extends StatelessWidget {
     };
 
     var stickerPack = WhatsappStickers(
-      identifier: 'cuppyFlutterWhatsAppStickers',
+      identifier: 'lionsTeamWhatsAppStickers',
       name: 'Tiger Stickers',
       publisher: 'Lion\'s Team Stickers',
       trayImageFileName: WhatsappStickerImage.fromAsset('assets/tray.png'),
