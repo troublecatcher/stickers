@@ -17,27 +17,31 @@ class OnboardingScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Stack(
           children: [
-            Align(
-              alignment: const Alignment(0, -0.5),
-              child: Image.asset('assets/1.webp'),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/1.webp',
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.width / 2,
+                  ),
+                  Text(
+                    'Use this app to send our stickers anywhere!',
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                        fontWeight: FontWeight.w700, color: Colors.blueGrey),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
-            Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Use this app to send out stickers anywhere!',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(fontWeight: FontWeight.w700),
-                  textAlign: TextAlign.center,
-                )),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 40,
                   child: CupertinoButton(
-                      color: Colors.orange,
+                      color: Colors.blue,
                       child: Text('Get started',
                           style: Theme.of(context).textTheme.bodyLarge),
                       onPressed: () async {
@@ -60,8 +64,8 @@ class OnboardingScreen extends StatelessWidget {
                                   builder: (_) => const TermsOfUseScreen()));
                         },
                         child: const Text('Terms of use',
-                            style: TextStyle(color: Colors.black))),
-                    const Text('/'),
+                            style: TextStyle(color: Colors.blueGrey))),
+                    const Text('/', style: TextStyle(color: Colors.blueGrey)),
                     TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -70,7 +74,7 @@ class OnboardingScreen extends StatelessWidget {
                                   builder: (_) => const PrivacyPolicyScreen()));
                         },
                         child: const Text('Privacy Policy',
-                            style: TextStyle(color: Colors.black))),
+                            style: TextStyle(color: Colors.blueGrey))),
                   ],
                 ),
               ],

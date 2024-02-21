@@ -14,9 +14,9 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
   ]);
   sharedPreferences = await SharedPreferences.getInstance();
+  // sharedPreferences.clear();
   isFirstTime = sharedPreferences.getBool('isFirstTime');
   isFirstTime = isFirstTime ?? true;
-  // sharedPreferences.clear();
   runApp(const MainApp());
 }
 
