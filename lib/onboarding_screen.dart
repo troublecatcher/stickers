@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
-import 'logo.dart';
 import 'main.dart';
-import 'pp.dart';
-import 'tou.dart';
+import 'pp_screen.dart';
+import 'tou_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -18,14 +17,14 @@ class OnboardingScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Stack(
           children: [
-            const Align(
-              alignment: Alignment(0, -0.5),
-              child: Logo(),
+            Align(
+              alignment: const Alignment(0, -0.5),
+              child: Image.asset('assets/1.webp'),
             ),
             Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Send stickers to any messenger with our app!',
+                  'Use this app to send out stickers anywhere!',
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium!
@@ -46,7 +45,7 @@ class OnboardingScreen extends StatelessWidget {
                         sharedPreferences.setBool('isFirstTime', isFirstTime!);
                         Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
+                            CupertinoPageRoute(
                                 builder: (_) => const HomeScreen()));
                       }),
                 ),
@@ -57,7 +56,7 @@ class OnboardingScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                   builder: (_) => const TermsOfUseScreen()));
                         },
                         child: const Text('Terms of use',
@@ -67,7 +66,7 @@ class OnboardingScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CupertinoPageRoute(
                                   builder: (_) => const PrivacyPolicyScreen()));
                         },
                         child: const Text('Privacy Policy',

@@ -27,7 +27,14 @@ flutter:
   assets:
     - assets/
   fonts:
-    - family: Anto
+    - family: Documan
       fonts:
-        - asset: assets/Anta/Anta-Regular.ttf
-          weight: 400
+        - asset: assets/Documan/DocumanBold.otf
+        - asset: assets/Documan/DocumanExtraLight.otf
+        - asset: assets/Documan/DocumanHeavy.otf
+        - asset: assets/Documan/DocumanLazer.otf
+        - asset: assets/Documan/DocumanLight.otf
+        - asset: assets/Documan/DocumanMedium.otf
+        - asset: assets/Documan/DocumanRegular.otf
+        - asset: assets/Documan/DocumanSemiBold.otf
+        - asset: assets/Documan/DocumanThin.otf

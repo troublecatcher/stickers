@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
-import 'onboarding.dart';
+import 'onboarding_screen.dart';
 
 late SharedPreferences sharedPreferences;
 late bool? isFirstTime;
@@ -37,18 +37,19 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
+          listTileTheme: ListTileThemeData(iconColor: Colors.white),
           splashColor: Colors.transparent,
           appBarTheme: AppBarTheme(
-            titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Colors.black54,
-                  fontFamily: 'Anto',
-                ),
-            color: Colors.orangeAccent,
-          ),
+              titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.white,
+                    fontFamily: 'Documan',
+                  ),
+              color: Colors.blueAccent,
+              iconTheme: IconThemeData(color: Colors.white)),
           textTheme: Theme.of(context).textTheme.apply(
-                fontFamily: 'Anto',
-                bodyColor: Colors.black54,
-                displayColor: Colors.black54,
+                fontFamily: 'Documan',
+                bodyColor: Colors.white,
+                displayColor: Colors.white,
               ),
         ),
         debugShowCheckedModeBanner: false,
