@@ -37,19 +37,22 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
-          listTileTheme: ListTileThemeData(iconColor: Colors.white),
+          scaffoldBackgroundColor: Colors.black,
+          listTileTheme: ListTileThemeData(
+            iconColor: Colors.red,
+          ),
           splashColor: Colors.transparent,
           appBarTheme: AppBarTheme(
               titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Colors.white,
-                    fontFamily: 'Documan',
+                    fontFamily: 'Numberplate',
                   ),
-              color: Colors.blueAccent,
+              color: Colors.redAccent,
               iconTheme: IconThemeData(color: Colors.white)),
           textTheme: Theme.of(context).textTheme.apply(
-                fontFamily: 'Documan',
-                bodyColor: Colors.white,
-                displayColor: Colors.white,
+                fontFamily: 'Numberplate',
+                bodyColor: Colors.black,
+                displayColor: Colors.black,
               ),
         ),
         debugShowCheckedModeBanner: false,

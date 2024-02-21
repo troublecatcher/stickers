@@ -21,15 +21,22 @@ class OnboardingScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/1.webp',
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.width / 2,
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Image.asset(
+                      'assets/7.webp',
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.width / 2,
+                    ),
                   ),
+                  const SizedBox(height: 10),
                   Text(
-                    'Use this app to send our stickers anywhere!',
+                    'Enjoy our car stickers sharing app',
                     style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        fontWeight: FontWeight.w700, color: Colors.blueGrey),
+                        fontWeight: FontWeight.w700, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -41,9 +48,12 @@ class OnboardingScreen extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 40,
                   child: CupertinoButton(
-                      color: Colors.blue,
+                      color: Colors.red,
                       child: Text('Get started',
-                          style: Theme.of(context).textTheme.bodyLarge),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(color: Colors.white)),
                       onPressed: () async {
                         isFirstTime = false;
                         sharedPreferences.setBool('isFirstTime', isFirstTime!);
@@ -64,8 +74,8 @@ class OnboardingScreen extends StatelessWidget {
                                   builder: (_) => const TermsOfUseScreen()));
                         },
                         child: const Text('Terms of use',
-                            style: TextStyle(color: Colors.blueGrey))),
-                    const Text('/', style: TextStyle(color: Colors.blueGrey)),
+                            style: TextStyle(color: Colors.white))),
+                    const Text('/', style: TextStyle(color: Colors.white)),
                     TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -74,7 +84,7 @@ class OnboardingScreen extends StatelessWidget {
                                   builder: (_) => const PrivacyPolicyScreen()));
                         },
                         child: const Text('Privacy Policy',
-                            style: TextStyle(color: Colors.blueGrey))),
+                            style: TextStyle(color: Colors.white))),
                   ],
                 ),
               ],

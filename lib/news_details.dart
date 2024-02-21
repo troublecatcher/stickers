@@ -34,13 +34,13 @@ class NewsDetails extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!
-                            .copyWith(color: Colors.blueGrey)),
+                            .copyWith(color: Colors.white)),
                     const SizedBox(height: 20),
                     Text(news.content,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
-                            .copyWith(color: Colors.blueGrey)),
+                            .copyWith(color: Colors.grey)),
                   ],
                 ),
               )
