@@ -39,7 +39,8 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/1.webp', width: 100, height: 100),
-                    const Text('Stickers'),
+                    Text('Stickers',
+                        style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),
               ),
@@ -47,14 +48,14 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () => Navigator.push(context,
                     CupertinoPageRoute(builder: (_) => const NewsScreen())),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.newspaper_rounded,
                       size: 100,
                     ),
-                    Text('News'),
+                    Text('News', style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),
               ),
@@ -62,14 +63,15 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () => Navigator.push(context,
                     CupertinoPageRoute(builder: (_) => const SettingsScreen())),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.settings_rounded,
                       size: 100,
                     ),
-                    Text('Settings'),
+                    Text('Settings',
+                        style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),
               ),
