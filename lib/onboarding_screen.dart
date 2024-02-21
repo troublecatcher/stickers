@@ -48,7 +48,7 @@ class OnboardingScreen extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 40,
                   child: CupertinoButton(
-                      color: Colors.red,
+                      color: Colors.redAccent,
                       child: Text('Get started',
                           style: Theme.of(context)
                               .textTheme
